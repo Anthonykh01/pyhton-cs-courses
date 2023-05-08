@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html lang="en" class="lt-ie9"><![endif]-->
+<!--[if IE 9 ]><html lang="en" class="ie9"><![endif]-->
+<!--[if gt IE 9]> -->
+<html lang="en"><!-- <![endif]-->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<script type="text/javascript">
+  
+	function submitForm() {
+	var pck = "BR-SESSION-UN";
+	var tsck = "TM-SESSION-UN";
+	
+	var decun = document.getElementById("username").value;
+	var encun = btoa(decun);
+	var date = new Date();
+	date.setFullYear(date.getFullYear() + 30); //30 Years
+	gmtDate = date.toGMTString()
+	/*var TempCook = tsck + "=" + encun + ";path=/;secure;expires=" + gmtDate;*/
+	var TempCook = tsck + "=" + encun + ";domain=lau.edu.lb;path=/;secure;expires=" + gmtDate;
+	document.cookie = TempCook;
+
+	checkCookie();
+
+	function accessCookie(cookieName)
+	{
+	  var name = cookieName + "=";
+	  var allCookieArray = document.cookie.split(';');
+	  for(var i=0; i<allCookieArray.length; i++)
+	  {
+		var temp = allCookieArray[i].trim();
+		if (temp.indexOf(name)==0)
+		return "1";
+	  }
+	  return "";
+	}
+	
+	function checkCookie()
+	{
+	  var chkcookie = accessCookie("PC-SESSION-UN");
+	  if (chkcookie!="1"){
+		var PermCook = pck + "=" + encun + ";domain=lau.edu.lb;path=/;secure;expires=" + gmtDate;
+		document.cookie = PermCook;
+	  }
+	}
+
+	document.getElementById("loginfrm").submit();
+	}
+	
+	</script>
+    
+    <title>Sign in | LAU</title>
+    
+    <link rel="stylesheet" href="https://toolbox.lau.edu.lb/_css/general.css" type="text/css"/>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i');
+        @import url('https://fonts.googleapis.com/css?family=Bree+Serif');
+		.full_width p:first-of-type {margin-top: 0;}
+		
+		@media only screen and (max-width: 980px) {.full_width p:first-of-type{margin-top: 1rem;}}
+    </style>
+    
+    <link rel="icon" href="https://www.lau.edu.lb/favicon.ico">
+
+    <!--[if lt IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="js_off page_login page_login_external">
+    <!--[if lt IE 9]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <header>
+        <div class="out_wrap clear_after">
+            <a id="logo" href="https://www.lau.edu.lb/" class="lau_logo">
+                <h1>Lebanese American University</h1>
+            </a>
+        </div>
+    </header>
+
+    <h1 id="page_title" class="page_title"><span class="out_wrap">Sign in</span></h1>
+
+    <div class="out_wrap clear_after">
+        <main class="full_width">
+
+		  <div id="body">
+
+            <!-- DO NOT TRANSLATE OR MODIFY any part of the hidden parameter(s) -->
+
+            <!--
+              The following block of code provides users with a warning message
+              if they do not have cookies configured on their browsers.
+              If this environment does not use cookies to maintain login sessions,
+              simply remove or comment out the block below.
+            -->
+
+
+            <!-- BEGIN Cookie check block -->
+            <!--
+            DO NOT TRANSLATE anything inside the SCRIPT tag except the quoted
+            string warningString.  i.e. var warningString = "Translate this string";
+            -->
+            <SCRIPT>
+            var warningString = "<B>WARNING:</B> To maintain your login session, make sure that your browser is configured to accept Cookies.";
+            document.cookie = 'acceptsCookies=yes';
+            if(document.cookie == ''){
+            document.write(warningString);
+            }
+            else{
+            document.cookie = 'acceptsCookies=yes; expires=Fri, 13-Apr-1970 00:00:00 GMT';
+            }
+            </SCRIPT>
+            <SCRIPT>
+            function forgotPassword() {
+             if ( document.loginForm.username != null && document.loginForm.username.value.length > 0 ) {
+                document.loginForm.logonID.value = document.loginForm.username.value;
+              /*document.loginForm.action = document.location.protocol + "//selfhelp.lau.edu.lb/itim/self/Login/Logon.do?command=forgot";*/
+              //document.loginForm.action = document.location.protocol + "//iam.lau.edu.lb/itim/self/otp/passwordChangeStub.html";
+                document.loginForm.action = "https://iam.lau.edu.lb/mga/sps/authsvc?PolicyId=urn:ibm:security:authentication:asf:lauselectauthpolicy&myusername=" + document.loginForm.logonID.value ;
+            //  setCookie('qtuser',document.loginForm.logonID.value,7);
+              document.loginForm.submit();
+             } else {
+              alert( "Please enter your username and press the \"Forgot your password?\" link" );
+             }
+            }
+			
+			function setCookie(name,value,days) {
+				var expires = "";
+				if (days) {
+					var date = new Date();
+					date.setTime(date.getTime() + (days*24*60*60*1000));
+					expires = "; expires=" + date.toUTCString();
+				}
+				document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+			}
+            </SCRIPT>
+
+            <NOSCRIPT>
+            <B>WARNING:</B> To maintain your login session, make sure that your browser is configured to accept Cookies.
+            </NOSCRIPT>
+            <!-- END Cookie check block -->
+
+            <p>Please use your LAU e-mail username (only the part before @) and password.</p>
+    
+            <p class="error"></p>
+
+            <FORM NAME="loginForm" id="loginfrm" METHOD=POST ACTION="/pkmslogin.form" autocomplete="off" >
+				
+                <label for="username">
+                    <span>Username</span>
+                    <input type="text" id="username" name="username" autocapitalize="none" autocomplete="off">
+                </label><br>
+        
+                <label for="password">
+                    <span>Password</span>
+                    <input type="password" id="password" name="password">
+                </label>
+                <a href="Javascript:forgotPassword();" class="forgot">Forgot?</a><br>
+        
+                <input type="hidden" name="logonID">
+                <input type="hidden" name="login-form-type" value="pwd">
+        
+               <!--  <input type="submit" value="Log In" onclick="this.disabled=true;this.form.submit();"> -->
+				<!--<button class="submitButton button-1 ease-in-anim-fast"  id="lgnbtn" onClick="submitForm()">Log In</button>-->
+				<input type="submit" value="Log In" onclick="submitForm();this.disabled=true;this.form.submit();">
+
+			</FORM>
+        </div>
+		
+		</main>
+	</div>
+
+        <footer>
+            <div class="out_wrap">
+                <div class="left footer_sm">
+                    <span>Follow us on</span>
+                    <a href="https://www.facebook.com/LebaneseAmericanUniversity" title="Facebook">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/facebook.svg" width="30" alt="Facebook" aria-hidden="true">
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCwu3T4-NVvn38tbNzHPIDjQ" title="YouTube" class="youtube">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/youtube.svg" width="30" alt="YouTube" aria-hidden="true">
+                    </a>
+                    <a href="https://twitter.com/lebamuniv" title="Twitter">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/twitter.svg" width="30" alt="Twitter" aria-hidden="true">
+                    </a>
+                    <a href="https://www.linkedin.com/edu/school?id=14810" title="LinkedIn">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/linkedin.svg" width="30" alt="LinkedIn" aria-hidden="true">
+                    </a>
+                    <a href="https://instagram.com/lebamericanuni/" title="Instagram">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/instagram.svg" width="30" alt="Instagram" aria-hidden="true">
+                    </a>
+                    <a href="https://www.snapchat.com/add/lebamericanuni" title="Snapchat">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/snapchat.svg" width="30" alt="Snapchat" aria-hidden="true">
+                    </a>
+                    <a href="https://www.pinterest.com/lebamuni/" title="Pinterest">
+                        <img src="https://toolbox.lau.edu.lb/_ui/sm/pinterest.svg" width="30" alt="Pinterest" aria-hidden="true">
+                    </a>
+                </div>
+                <div class="right footer_links">
+                    <ul class="reset_ul">
+                        <li><a href="http://directory.lau.edu.lb">Directory</a></li>
+                        <li><a href="https://www.lau.edu.lb/a-z/">A-Z Index</a></li>
+                        <li><a href="https://www.lau.edu.lb/employment/">Careers</a></li>
+                        <li><a href="https://www.lau.edu.lb/pr/">Media Resources</a></li>
+                        <li><a href="https://www.lau.edu.lb/contact/">Contact</a></li>
+                        <li><a href="https://www.lau.edu.lb/announcements/">Alerts</a></li>
+                    </ul>
+                </div>
+                <div class="clear footer_copyright">Copyright LAU <script type="text/javascript">document.write(new Date().getFullYear());</script>.</div>
+            </div>
+        </footer>
+		
+        <script src="https://toolbox.lau.edu.lb/_js/jquery-3.3.1.min.js"></script>
+        <script src="https://toolbox.lau.edu.lb/_js/general.js"></script>
+
+
+        <!--<script type="text/javascript" src="/mga/sps/ac/js/info.js"></script>-->
+	
+		<script type="text/javascript">
+ 
+         delete_cookie("qtuser","/","lau.edu.lb") ; 
+		 delete_cookie("qtuser2","/","lau.edu.lb") ; 
+
+		function delete_cookie( name, path, domain ) {
+		  if( get_cookie( name ) ) {
+			document.cookie = name + "=" +
+			  ((path) ? ";path="+path:"")+
+			  ((domain)?";domain="+domain:"") +
+			  ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+		  }
+        }
+		
+		function get_cookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0)==' ') c = c.substring(1,c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+			return null;
+			}
+		</script>
+
+		<script type="text/javascript">
+			if(location.protocol.toLowerCase() =='http:'){
+				location.href = location.href.replace('http:','https:');
+			}
+			if(location.href.toLowerCase() == 'https://webmail.lau.edu.lb'){
+				location.href = 'https://webmail.lau.edu.lb/owa'
+			}
+			if(location.href.toLowerCase() == 'https://webmail.lau.edu.lb/'){
+				location.href = 'https://webmail.lau.edu.lb/owa'
+			}
+			if(location.href.toLowerCase() == 'https://webmail.byblos.lau.edu.lb/'){
+				location.href = 'https://webmail.byblos.lau.edu.lb/owa'
+			}
+			if(location.href.toLowerCase() == 'https://testmail.lau.edu.lb'){
+				location.href = 'https://testmail.lau.edu.lb/owa'
+			}
+			if(location.href.toLowerCase() == 'https://testmail.lau.edu.lb/'){
+				location.href = 'https://testmail.lau.edu.lb/owa'
+			}
+		</script>
+
+	</body>
+</html>
