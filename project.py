@@ -27,7 +27,13 @@ def fetch_course_information():
     fetch_element(driver_instance, By.NAME, "password").send_keys(credentials['password'])
     fetch_element(driver_instance, By.XPATH, "//input[@type='submit']").click()
 
- 
+    fetch_element(driver_instance, By.XPATH, '//*[@id="zz4_TopNavigationMenuV4"]/div/ul/li/ul/li[3]/a').click()
+    fetch_element(driver_instance, By.XPATH, '//*[@id="cbqwpctl00_m_g_df4e4cc9_291f_48af_90eb_524811091537"]/div/div[2]/a[4]').click()
+
+    driver_instance.get("https://banweb.lau.edu.lb/prod/bwckschd.p_disp_dyn_sched")
+
+    
+    driver_instance.quit()
 
 if __name__ == "__main__":
     fetch_course_information()
