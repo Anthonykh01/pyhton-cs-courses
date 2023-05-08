@@ -1,52 +1,28 @@
-import requests
-from bs4 import BeautifulSoup
+import sys
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-url = 'https://myportal.lau.edu.lb/'
-login_url = 'https://myportal.lau.edu.lb/pkmslogin.form'
-credentials = {
-    'username': 'anthony.khoury03',
-    'password': 'A.K71919769',
-    'login-form-type': 'pwd'
-}
+def login_to_portal(username, password):
+    LOGIN_URL = "https://myportal.lau.edu.lb/"
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(options=options)
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'
-}
+    driver.get(LOGIN_URL)
 
-# Create a session
-session = requests.Session()
-session.headers.update(headers)
+    username_input = driver.find_element(By.NAME, "username")
+    username_input.send_keys(username)
 
-# Get the login page
-response = session.get(url)
-soup = BeautifulSoup(response.text, 'html.parser')
+    password_input = driver.find_element(By.NAME, "password")
+    password_input.send_keys(password)
 
-# Get the login form
-login_form = soup.find("form", {"id": "loginfrm"})
+    login_button = driver.find_element(By.XPATH, "//input[@type='submit']")
+    login_button.click()
 
-# Submit the login form
-response = session.post(login_url, data=credentials)
+    return driver
 
-# Wait for 10 seconds before checking if we are redirected
-import time
-time.sleep(10)
+username = sys.argv[1]
+password = sys.argv[2]
 
-# Check if we are redirected to the student portal page
-while True:
-    if response.url == 'https://myportal.lau.edu.lb/Pages/studentPortal.aspx':
-        print("Login successful, redirected to the student portal page.")
-        break
-    elif response.url.startswith('https://myportal.lau.edu.lb/pkmslogin.form'):
-        print("Login failed or not redirected. Current URL:", response.url)
-        break
-    else:
-        # Follow the temporary redirect
-        response = session.get(response.url)
-        time.sleep(2)
+driver = login_to_portal(username, password)
 
-# Get the student portal page
-student_portal_url = 'https://myportal.lau.edu.lb/Pages/studentPortal.aspx'
-response = session.get(student_portal_url)
-
-# Print the page content
-print(response.text)
