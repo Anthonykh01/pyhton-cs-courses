@@ -44,7 +44,25 @@ def fetch_course_information():
 
     fetch_element(driver_instance, By.XPATH, '/html/body/div[3]/form/input[12]').click()
 
-    
+    course_details = {
+        'titles': [element.text for element in driver_instance.find_elements(By.CSS_SELECTOR, ".ddtitle > a")],
+        'instructors': [element.text for element in driver_instance.find_elements(By.CSS_SELECTOR, "tr > .dddefault:nth-child(7)")],
+        'hours': [element.text for element in driver_instance.find_elements(By.CSS_SELECTOR, "tr > .dddefault:nth-child(2)")],
+        'days': [element.text for element in driver_instance.find_elements(By.CSS_SELECTOR, "tr > .dddefault:nth-child(3)")],
+        'locations': [element.text for element in driver_instance.find_elements(By.CSS_SELECTOR, "tr > .dddefault:nth-child(4)")],
+    }
+
+    merged_data = list(zip(course_details['titles'], course_details['instructors'], course_details['locations'], course_details['hours'], course_details['days']))
+
+    csv_output_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'course_data.csv')
+
+    with open(csv_output_path, 'w', newline='') as csv_output_file:
+        csv_output_writer = csv.writer(csv_output_file)
+        csv_output_writer.writerow(["Title", "Instructor", "Place", "Hour", "Day"])
+        csv_output_writer.writerows(merged_data)
+
+        print(f"CSV file saved at {csv_output_path}")
+
     driver_instance.quit()
 
 if __name__ == "__main__":
