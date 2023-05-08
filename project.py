@@ -29,16 +29,18 @@ def login_to_portal(username, password):
     if "cas/login" not in driver.current_url:
         success = True
 
-    driver.quit()
-
-    return success
+    return driver if success else None
 
 def main():
     username = input("Enter your LAU username: ")
     password = input("Enter your LAU password: ")
 
-    if login_to_portal(username, password):
+    driver = login_to_portal(username, password)
+    if driver:
         print("Logged in successfully!")
+        driver.get("https://banweb.lau.edu.lb/")
+        time.sleep(5)
+        print("Navigated to Banner.")
     else:
         print("Login failed. Please check your credentials.")
 
