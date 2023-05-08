@@ -29,18 +29,31 @@ def login_to_portal(username, password):
     if "cas/login" not in driver.current_url:
         success = True
 
-    return driver if success else None
+    driver.quit()
+
+    return success
 
 def main():
     username = input("Enter your LAU username: ")
     password = input("Enter your LAU password: ")
 
-    driver = login_to_portal(username, password)
-    if driver:
+    if login_to_portal(username, password):
         print("Logged in successfully!")
-        driver.get("https://banweb.lau.edu.lb/")
-        time.sleep(5)
-        print("Navigated to Banner.")
+        print("Attempting to navigate to course search page...")
+
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        driver = webdriver.Chrome(options=options)
+        driver.get("https://banweb.lau.edu.lb/prod/bwskfcls.P_GetCrse")
+
+        time.sleep(2)
+
+        if "bwskfcls.P_GetCrse" in driver.current_url:
+            print("Successfully navigated to course search page!")
+        else:
+            print("Failed to navigate to course search page.")
+
+        driver.quit()
     else:
         print("Login failed. Please check your credentials.")
 
