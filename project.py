@@ -32,6 +32,18 @@ def fetch_course_information():
 
     driver_instance.get("https://banweb.lau.edu.lb/prod/bwckschd.p_disp_dyn_sched")
 
+    term_selector = Select(fetch_element(driver_instance, By.XPATH, '//*[@id="term_input_id"]'))
+    term_selector.select_by_value("202410")
+    fetch_element(driver_instance, By.XPATH, "/html/body/div[3]/form/input[2]").click()
+
+    subject_selector = Select(fetch_element(driver_instance, By.XPATH, '//*[@id="subj_id"]'))
+    subject_selector.select_by_value("CSC")
+
+    campus_selector = Select(fetch_element(driver_instance, By.XPATH, '//*[@id="camp_id"]'))
+    campus_selector.select_by_value("2")
+
+    fetch_element(driver_instance, By.XPATH, '/html/body/div[3]/form/input[12]').click()
+
     
     driver_instance.quit()
 
